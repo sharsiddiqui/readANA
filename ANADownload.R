@@ -18,9 +18,12 @@ meta <- meta[,c(1:14)]
 
 ##Access ANA Database
 stationCodes = as.character(meta$station)
+tipoDados = as.character(3) #1 for cotas/water level; 2 for chuvas/precipitation; 3 for vazoes/discharge
+nivelConsistencia = as.character(2) #1 for bruto; 2 for consistido, blank for both
+
 for (i in 1:length(stationCodes)) {
   codEstacao = stationCodes[i]
-  bodyPOST = paste0("codEstacao=",codEstacao,"&dataInicio=01/01/1900&dataFim=&tipoDados=3&nivelConsistencia=2")
+  bodyPOST = paste0("codEstacao=",codEstacao,"&dataInicio=01/01/1900&dataFim=&tipoDados=",tipoDados,"&nivelConsistencia=",nivelConsistencia)
   b2 <- "http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroSerieHistorica"
   xml = POST(b2, body = bodyPOST, content_type("application/x-www-form-urlencoded"))
   xml.doc = content(xml)
